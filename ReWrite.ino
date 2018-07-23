@@ -291,23 +291,23 @@ void loop()
 void DetermineStep()
 {
     StepLength = analogRead(SeqLengthPot);
-    if(0 < StepLength && StepLength < 200)
+    if(0 <= StepLength && StepLength < 200)
     {
         Steps = 2;
     }
-    else if(200 < StepLength && StepLength < 500)
+    else if(200 <= StepLength && StepLength < 500)
     {
         Steps = 4;
     }
-    else if(500 < StepLength && StepLength < 800)
+    else if(500 <= StepLength && StepLength < 800)
     {
         Steps = 8;
     }
-    else if(800 < StepLength && StepLength < 1000)
+    else if(800 <= StepLength && StepLength < 1000)
     {
         Steps = 16;
     }
-    else if(1000 < StepLength)
+    else if(1000 <= StepLength)
     {
         Steps = 32;
     }
@@ -433,39 +433,39 @@ void SwitchStates()
 void DetermineShuffle()
 {
     ShuffleVal = analogRead(ShufflePot);
-    if(0 < ShuffleVal && ShuffleVal < 127)
+    if(0 <= ShuffleVal && ShuffleVal < 127)
     {
         ShuffleNum = 0;
     }
-    else if(127 < ShuffleVal && ShuffleVal < 254)
+    else if(127 <= ShuffleVal && ShuffleVal < 254)
     {
         ShuffleNum = 1;
     }
-    else if(254 < ShuffleVal && ShuffleVal < 383)
+    else if(254 <= ShuffleVal && ShuffleVal < 383)
     {
         ShuffleNum = 2;
     }
-    else if(383 < ShuffleVal && ShuffleVal < 511)
+    else if(383 <= ShuffleVal && ShuffleVal < 511)
     {
         ShuffleNum = 3;
     }
-    else if(511 < ShuffleVal && ShuffleVal < 638)
+    else if(511 <= ShuffleVal && ShuffleVal < 638)
     {
         ShuffleNum = 4;
     }
-    else if(638 < ShuffleVal && ShuffleVal < 767)
+    else if(638 <= ShuffleVal && ShuffleVal < 767)
     {
         ShuffleNum = 5;
     }
-    else if(767 < ShuffleVal && ShuffleVal < 895)
+    else if(767 <= ShuffleVal && ShuffleVal < 895)
     {
         ShuffleNum = 6;
     }
-    else if(895 < ShuffleVal && ShuffleVal < 1000)
+    else if(895 <= ShuffleVal && ShuffleVal < 1000)
     {
         ShuffleNum = 7;
     }
-    else if(1000 < ShuffleVal)
+    else if(1000 <= ShuffleVal)
     {
         ShuffleNum = 8;
     }
@@ -514,7 +514,7 @@ void DetermineChannel()
 {
     ChannelKnobValue = analogRead(ChannelPot);
 
-    if(0 < ChannelKnobValue && ChannelKnobValue < 200)
+    if(0 <= ChannelKnobValue && ChannelKnobValue < 200)
     {
         ChannelState1 = HIGH;
         ChannelState2 = LOW;
@@ -523,7 +523,7 @@ void DetermineChannel()
         ChannelState5 = LOW;
         ChannelState6 = LOW;
     }
-    else if(200 < ChannelKnobValue && ChannelKnobValue < 400)
+    else if(200 <= ChannelKnobValue && ChannelKnobValue < 400)
     {
         ChannelState1 = LOW;
         ChannelState2 = HIGH;
@@ -532,7 +532,7 @@ void DetermineChannel()
         ChannelState5 = LOW;
         ChannelState6 = LOW;
     }
-    else if(400 < ChannelKnobValue && ChannelKnobValue < 600)
+    else if(400 <= ChannelKnobValue && ChannelKnobValue < 600)
     {
         ChannelState1 = LOW;
         ChannelState2 = LOW;
@@ -541,7 +541,7 @@ void DetermineChannel()
         ChannelState5 = LOW;
         ChannelState6 = LOW;
     }
-    else if(600 < ChannelKnobValue && ChannelKnobValue < 800)
+    else if(600 <= ChannelKnobValue && ChannelKnobValue < 800)
     {
         ChannelState1 = LOW;
         ChannelState2 = LOW;
@@ -550,7 +550,7 @@ void DetermineChannel()
         ChannelState5 = LOW;
         ChannelState6 = LOW;
     }
-    else if(800 < ChannelKnobValue && ChannelKnobValue < 1000)
+    else if(800 <= ChannelKnobValue && ChannelKnobValue < 1000)
     {
         ChannelState1 = LOW;
         ChannelState2 = LOW;
@@ -559,7 +559,7 @@ void DetermineChannel()
         ChannelState5 = HIGH;
         ChannelState6 = LOW;
     }
-    else if(1000 < ChannelKnobValue)
+    else if(1000 <= ChannelKnobValue)
     {
         ChannelState1 = LOW;
         ChannelState2 = LOW;
