@@ -174,6 +174,9 @@ void setup()
     DetermineStep();
     //End of inital sequence length section
 
+    //Cool light show
+    CoolLights();
+
     //This should create an interrupt based on the clckButton
     attachInterrupt(digitalPinToInterrupt(clckButton), isr, RISING);
 }
@@ -254,7 +257,7 @@ void loop()
 
     //This section determines which channel will output from the
     //Mono jacks, since truth table for OR is true for all inputs except
-    //when both are 0
+    //when both are 0, so when the button is pressed, it will always play
     ChangeFill();
     //End of Fill section
 
@@ -288,6 +291,9 @@ void loop()
     BankPrevious[BankArrayNumber] = ButtonBankSelectState[BankArrayNumber];
 }
 
+//This section reads in the initial value of the
+//potentiometer that determines how long your sound
+//sequence will be
 void DetermineStep()
 {
     StepLength = analogRead(SeqLengthPot);
@@ -313,11 +319,46 @@ void DetermineStep()
     }
 }
 
+//Cool light show
+void CoolLights()
+{
+    digitalWrite(BankLED, HIGH);
+    delay(200);
+    digitalWrite(BankLED, LOW);
+    delay(180);
+    digitalWrite(BankLED, HIGH);
+    delay(160);
+    digitalWrite(BankLED, LOW);
+    delay(140);
+    digitalWrite(BankLED, HIGH);
+    delay(120);
+    digitalWrite(BankLED, LOW);
+    delay(100);
+    digitalWrite(BankLED, HIGH);
+    delay(80);
+    digitalWrite(BankLED, LOW);
+    delay(60);
+    digitalWrite(BankLED, HIGH);
+    delay(40);
+    digitalWrite(BankLED, LOW);
+    delay(20);
+    digitalWrite(BankLED, HIGH);
+    delay(60);
+    digitalWrite(BankLED, LOW);
+}
+
+//Interrupt function
 void isr()
 {
     buttonState = HIGH;
 }
 
+//This section writes to each mono jack output only if their 
+//corresponding fill value is 1 and the value in the sequence is
+//also 1, each write has two channels since BankArrayShift#
+//is either 0 or 3, BankPush# starts at 0 and newShuffleVal#
+//is a number between 0 and 8
+//Row 0 and 3 for sequence
 void WriteToMono()
 {
     digitalWrite(Out1, Sequence[0 + BankArrayShift1][BankPush1 + NewShuffleVal1] || Fill1);
@@ -359,6 +400,9 @@ void WriteToMono()
     buttonState = LOW;
 }
 
+//This section records values into your sequencer by determining
+//if the big button has been pressed, and based on the channel
+//which is based on the middle knob, you write 1 to the sequencer
 void RecordSeq()
 {
     if((BigButtonState != PrevBigButtonState) && (BigButtonState == HIGH))
@@ -395,6 +439,8 @@ void RecordSeq()
     }
 }
 
+//Sets the Bank States to be either Low or High which determines which
+//Row of the sequence is playing
 void SettingBanks()
 {
     if(ClockKeep%4 == 1)
@@ -414,6 +460,9 @@ void SettingBanks()
     }
 }
 
+//This section switches the states of each channel based on the bank state
+//It changes only when the elapsed time between the last change is greater 
+//then the debounce value
 void SwitchStates()
 {
     if((ButtonBankSelectState[BankArrayNumber]) == HIGH && (BankPrevious[BankArrayNumber] == LOW) && (millis() - time > debounce))
@@ -430,6 +479,9 @@ void SwitchStates()
     }
 }
 
+//This section reads in the pot value of the 
+//shuffle pot and determines how much to shuffle
+//the sequence
 void DetermineShuffle()
 {
     ShuffleVal = analogRead(ShufflePot);
@@ -471,6 +523,8 @@ void DetermineShuffle()
     }
 }
 
+//Not really sure what this section does yet
+//Prob has to do with how you are shuffling your sequence
 void SettingShuffle()
 {
     int diff = abs(ShuffleNum - OldShuffleVal);
@@ -510,6 +564,8 @@ void SettingShuffle()
     }
 }
 
+//This section reads in the value of the potentiometer
+//That determines which channel is being used, there are 6 channels
 void DetermineChannel()
 {
     ChannelKnobValue = analogRead(ChannelPot);
@@ -570,6 +626,9 @@ void DetermineChannel()
     }
 }
 
+//This section sets the variables that will access the 
+//sequence array based on the state of Bank and the state
+//of the channel 
 void VariableSet()
 {
     if((BankState[0] == LOW) && (ChannelState1 == HIGH))
@@ -670,17 +729,23 @@ void VariableSet()
     }
 }
 
+//This section happens when you press the clear button
+//It clears out the row and sets them all to zero
+//Row is based on the channel and bank state
 void ClearSeq()
 {
     if(ClearButtonState == HIGH)
     {
-        for(int i = 0; i < 41; i++)
+        for(int i = 0; i < 42; i++)
         {
             Sequence[ClearState + BankRecord][i] = 0;
         }
     }
 }
 
+//This section determines which channel will output from the
+//Mono jacks, since truth table for OR is true for all inputs except
+//when both are 0, so when the button is pressed, it will always play
 void ChangeFill()
 {
     if(FillButtonState == HIGH)
@@ -751,6 +816,8 @@ void ChangeFill()
     }
 }
 
+//Reset button allows you to restart your sequence
+//by setting the beginning values back down to 0
 void MakeReset()
 {
     if(ResetButtonState != PrevResetButtonState)
@@ -769,6 +836,8 @@ void MakeReset()
     }
 }
 
+//This section resets all the bank values
+//if their values are over steps
 void ResetBank()
 {
     if(looper >= Steps)
